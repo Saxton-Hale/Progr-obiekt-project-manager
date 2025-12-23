@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TaskBoard.Domaim\TaskBoard.Domain.csproj" />
+    <ProjectReference Include="..\TaskBoard.Domain\TaskBoard.Domain.csproj" />
     <ProjectReference Include="..\TaskBoard.Infrastructure\TaskBoard.Infrastructure.csproj" />
   </ItemGroup>
 

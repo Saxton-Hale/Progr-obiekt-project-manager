@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace TaskBoard.Domain.Enums
 {
-    internal class TaskPriority
+    public enum TaskStatus
     {
+        ToDo = 0,
+        InProgress = 1,
+        Done = 2,
+        ToVerify = 3,
+        Blocked = 4
     }
 }
