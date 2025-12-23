@@ -1,0 +1,15 @@
+Folder Interfaces zawiera interfejsy, które definiuj¹ kontrakty dla klas w domenie oraz dla warstwy infrastruktury. Dziêki nim 
+mo¿na stosowaæ polimorfizm i ³atwiej testowaæ logikê.
+
+IAssignable.cs – interfejs dla obiektów, które mog¹ byæ przypisane do u¿ytkownika. Typowym przyk³adem jest zadanie. Interfejs 
+mo¿e zawieraæ metody takie jak AssignTo(User user) i Unassign(), co pozwala pracowaæ z przypisywaniem zadañ bez znajomoœci konkretnej implementacji klasy.
+
+IIdentifiable.cs – prosty interfejs oznaczaj¹cy obiekty posiadaj¹ce identyfikator. Zwykle udostêpnia w³aœciwoœæ Id typu Guid. 
+U³atwia tworzenie generycznych rozwi¹zañ operuj¹cych na encjach, które musz¹ mieæ klucz g³ówny.
+
+IBoardRepository.cs – interfejs repozytorium dla tablic. Definiuje operacje takie jak pobieranie, dodawanie, aktualizowanie i 
+usuwanie obiektów Board. Konkretna implementacja repozytorium (np. oparta na bazie danych lub pliku) bêdzie znajdowaæ siê w warstwie 
+Infrastructure, ale logika domenowa bêdzie u¿ywaæ tylko tego interfejsu.
+
+IUnitOfWork.cs – interfejs reprezentuj¹cy jednostkê pracy (Unit of Work). Zawiera referencje do repozytoriów oraz metodê SaveChanges 
+lub podobn¹. Umo¿liwia grupowanie kilku operacji na encjach w jedn¹ transakcjê i spójne zapisanie zmian w warstwie danych.

@@ -1,0 +1,10 @@
+Folder Services zawiera klasy serwisowe, które implementuj¹ logikê operuj¹c¹ na encjach. Korzystaj¹ z modeli domenowych i 
+repozytoriów, aby realizowaæ typowe scenariusze biznesowe.
+
+BoardService.cs – serwis odpowiedzialny za operacje na tablicach i kolumnach. Udostêpnia metody do tworzenia nowej tablicy, 
+dodawania i usuwania kolumn, wyszukiwania tablic oraz przenoszenia zadañ miêdzy kolumnami. Mo¿e korzystaæ z interfejsu 
+IBoardRepository i IUnitOfWork, aby zapisywaæ zmiany w warstwie danych.
+
+TaskService.cs – serwis odpowiedzialny za logikê zwi¹zan¹ z zadaniami. Zawiera metody zmiany statusu, priorytetu i terminu, 
+przypisywania i odpinania zadañ od u¿ytkowników, a tak¿e filtrowania i sortowania list zadañ z u¿yciem LINQ. W tym miejscu 
+mo¿na równie¿ reagowaæ na zdarzenia i delegaty (np. informowaæ o zmianie statusu zadania).

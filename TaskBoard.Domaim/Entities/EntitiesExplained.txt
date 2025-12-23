@@ -1,0 +1,24 @@
+Folder Entities zawiera klasy domenowe reprezentuj¹ce g³ówne obiekty w systemie typu Trello.
+
+Board.cs – klasa reprezentuj¹ca tablicê zadañ (board). Przechowuje listê kolumn, nazwê tablicy i identyfikator. Odpowiada za dodawanie, usuwanie i
+wyszukiwanie kolumn oraz pobieranie wszystkich zadañ z tej tablicy.
+
+Column.cs – klasa reprezentuj¹ca kolumnê na tablicy (np. ToDo, InProgress, Done). Przechowuje nazwê kolumny, jej kolejnoœæ oraz listê zadañ. 
+Odpowiada za dodawanie, usuwanie i przenoszenie zadañ w obrêbie kolumn.
+
+TaskItem.cs – abstrakcyjna klasa bazowa dla zadañ. Zawiera wspólne w³aœciwoœci zadañ, takie jak tytu³, opis, status, priorytet, daty utworzenia i 
+terminu, przypisanego u¿ytkownika itp. Udostêpnia podstawowe metody do zmiany statusu, walidacji danych oraz generowania krótkiego opisu zadania. 
+W dalszej czêœci projektu bêdzie wykorzystywana polimorficznie przez klasy pochodne.
+
+BugTask.cs – konkretna klasa zadania dziedzicz¹ca po TaskItem, reprezentuj¹ca zg³oszenie b³êdu. Dodaje specyficzne pola, takie jak poziom wa¿noœci czy 
+kroki do odtworzenia b³êdu, oraz mo¿e nadpisywaæ metody z TaskItem, aby inaczej prezentowaæ informacje o zadaniu.
+
+FeatureTask.cs – konkretna klasa zadania dziedzicz¹ca po TaskItem, reprezentuj¹ca nowe funkcjonalnoœci lub usprawnienia. Mo¿e przechowywaæ 
+np. nazwê modu³u lub obszaru systemu, którego dotyczy. Równie¿ mo¿e nadpisywaæ metody bazowe, aby inaczej wyœwietlaæ szczegó³y.
+
+Person.cs – abstrakcyjna klasa bazowa dla osób w systemie. Przechowuje podstawowe dane, takie jak identyfikator, imiê i nazwisko. 
+Udostêpnia wspólne zachowania (np. metoda zwracaj¹ca pe³ne imiê i nazwisko), z których korzystaj¹ klasy pochodne.
+
+User.cs – klasa reprezentuj¹ca u¿ytkownika systemu (cz³onka zespo³u). Dziedziczy po Person. Zawiera dodatkowe informacje, takie jak
+adres e-mail, rola u¿ytkownika i lista przypisanych zadañ. Odpowiada za przypisywanie i odpinanie zadañ od u¿ytkownika oraz mo¿e implementowaæ
+interfejsy porównuj¹ce u¿ytkowników.

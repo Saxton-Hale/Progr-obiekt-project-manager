@@ -1,0 +1,10 @@
+Folder Enums zawiera typy wyliczeniowe u¿ywane w modelu domenowym do opisywania stanu i ról.
+
+TaskStatus.cs – enum opisuj¹cy status zadania, np. Todo, InProgress, Done, Blocked. Dziêki niemu status zadania jest ograniczony 
+do kilku sensownych wartoœci i ³atwy do filtrowania oraz sortowania.
+
+TaskPriority.cs – enum opisuj¹cy priorytet zadania, np. Low, Medium, High, Critical. Umo¿liwia nadawanie zadaniom wagi oraz 
+sortowanie lub filtrowanie zadañ wed³ug wa¿noœci.
+
+UserRole.cs – enum opisuj¹cy rolê u¿ytkownika w systemie, np. Member, Manager, Admin. Dziêki temu mo¿na w logice odró¿niaæ 
+zwyk³ych u¿ytkowników od osób, które mog¹ zarz¹dzaæ tablicami czy u¿ytkownikami.

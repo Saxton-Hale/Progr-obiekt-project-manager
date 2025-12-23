@@ -1,0 +1,14 @@
+Folder Exceptions zawiera niestandardowe klasy wyj¹tków, które opisuj¹ typowe b³êdy biznesowe w systemie. Pozwala to czytelniej
+reagowaæ na problemy z danymi i logik¹.
+
+DomainException.cs – bazowa klasa wyj¹tków dziedzicz¹ca po Exception, u¿ywana jako wspólny typ dla wszystkich b³êdów domenowych. 
+Dziêki temu mo¿na ³atwo przechwyciæ wszystkie wyj¹tki zwi¹zane z logik¹ systemu w jednym miejscu.
+
+InvalidTaskException.cs – wyj¹tek rzucany, gdy tworzone lub modyfikowane zadanie ma ogólnie niepoprawne dane, np. pusty tytu³, zbyt
+d³ugi opis lub inne b³êdy walidacyjne. Pomaga sygnalizowaæ, ¿e TaskItem nie spe³nia wymagañ biznesowych.
+
+InvalidDeadlineException.cs – wyj¹tek rzucany, gdy termin zadania jest b³êdny, np. ustawiony w przesz³oœci w stosunku do daty utworzenia 
+lub nie spe³nia innych regu³. WyraŸnie wskazuje, ¿e problem dotyczy pola z terminem.
+
+UserTaskLimitExceededException.cs – wyj¹tek rzucany, gdy u¿ytkownik ma ju¿ osi¹gniêty maksymalny dozwolony limit aktywnych zadañ i 
+próbuje siê mu przypisaæ kolejne. Pozwala wymusiæ zasady dotycz¹ce obci¹¿enia u¿ytkowników prac¹.
