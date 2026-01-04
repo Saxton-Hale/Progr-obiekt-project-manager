@@ -35,9 +35,8 @@ namespace TaskBoard.Domain.Entities
             set => _actualResult = value;
         }
 
-        public BugTask(string title) : base()
+        public BugTask(string title, DateTime dueDate) : base(title, dueDate)
         {
-            Title = title;
         }
     }
 }

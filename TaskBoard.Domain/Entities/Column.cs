@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskBoard.Domain.Interfaces;
 
 namespace TaskBoard.Domain.Entities
 {
@@ -35,6 +36,13 @@ namespace TaskBoard.Domain.Entities
             _id = Guid.NewGuid();
         }
 
+        public Column(string name)
+        {
+            this.Id = _id;
+            _name = name;
+            _tasks = new List<TaskItem>();
+        }
+
 
         public void AddTask(TaskItem task)
         {
@@ -46,8 +54,9 @@ namespace TaskBoard.Domain.Entities
             _tasks.Add(task);
         }
 
-        public void RemoveTask(TaskItem task)
+        public void RemoveTask(Guid taskId)
         {
+            var task = _tasks.SingleOrDefault(t => t.Id == taskId);
             if (task == null)
             {
                 throw new ArgumentNullException(nameof(task));

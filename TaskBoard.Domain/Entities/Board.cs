@@ -6,16 +6,11 @@ namespace TaskBoard.Domain.Entities
 {
     internal class Board
     {
-        private Guid _id;
+        private readonly Guid _id;
         private string _name;
-        private List<Column> _columns;
+        private readonly List<Column> _columns;
 
-        public Guid Id
-        {
-            get => _id;
-            set => _id = value;
-        }
-
+        public Guid Id => _id;
         public string Name
         {
             get => _name;
@@ -32,70 +27,50 @@ namespace TaskBoard.Domain.Entities
                 }
             }
         }
+        public IReadOnlyList<Column> Columns => _columns;
 
-        public List<Column> Columns
-        {
-            get => _columns;
-            set => _columns = value ?? new List<Column>();
-        }
-
-        public Board()
+        public Board(string name)
         {
             _id = Guid.NewGuid();
+            _name = name;
             _columns = new List<Column>();
-        }
-
-        public Board(string name) : this()
-        {
-            Name = name;
         }
 
         public void AddColumn(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentException("Column name cannot be null or whitespace");
-                // custom exception later
-            }
+                throw new ArgumentException("Column cannot be null or whitespace");
+            //custom exception
 
-            var column = new Column
-            {
-                Name = name
-            };
-
-            _columns.Add(column);
+            _columns.Add(new Column(name));
         }
 
-        public void RemoveColumn(string name)
+        public void RemoveColumn(Guid columnId)
         {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                throw new ArgumentException("Column name cannot be null or whitespace");
-            }
+            var col = _columns.SingleOrDefault(c => c.Id == columnId);
+            if (col is null)
+                throw new InvalidOperationException("Column not found");
+            //custom exception
 
-            var column = _columns.FirstOrDefault(c => c.Name == name);
-            if (column == null)
-            {
-                // dodac pozniej exception
-                throw new InvalidOperationException($"Column '{name}' not found on board.");
-            }
-
-            _columns.Remove(column);
+            _columns.Remove(col);
         }
 
-        public List<TaskItem> GetAllTasks()
+        public IEnumerable<TaskItem> GetAllTasks() =>
+            _columns.SelectMany(c => c.Tasks);
+
+        public void MoveTask(Guid taskId, Guid fromColumnId, Guid toColumnId)
         {
-            var tasks = new List<TaskItem>();
+            var from = _columns.SingleOrDefault(c => c.Id == fromColumnId)
+                ?? throw new InvalidOperationException("Source column not found");
 
-            foreach (var column in _columns)
-            {
-                if (column.Tasks != null)
-                {
-                    tasks.AddRange(column.Tasks);
-                }
-            }
+            var to = _columns.SingleOrDefault(c => c.Id == toColumnId)
+                ?? throw new InvalidOperationException("Target column not found");
 
-            return tasks;
+            var task = from.Tasks.SingleOrDefault(t => t.Id == taskId)
+                ?? throw new InvalidOperationException("Task not found in source column");
+
+            from.RemoveTask(taskId);
+            to.AddTask(task);
         }
     }
 }

@@ -5,19 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using TaskBoard.Domain.Enums;
 using TaskStatus = TaskBoard.Domain.Enums.TaskStatus;
+using TaskBoard.Domain.Exceptions;
+using TaskBoard.Domain.Interfaces;
 
 namespace TaskBoard.Domain.Entities
 {
-    internal abstract class TaskItem
+    internal abstract class TaskItem : IIdentifiable, IAssignable
     {
         private Guid _id;
         private string _title;
         private string? _description;
         private TaskStatus _status;
         private TaskPriority _priority;
-        private DateTime _createdAt;
+        private readonly DateTime _createdAt;
         private DateTime _dueDate;
-        private List<User>? _assignedTo;
+        private readonly List<User> _assignedTo;
 
         public Guid Id { get => _id; set => _id = value; }
         public string Title
@@ -45,11 +47,7 @@ namespace TaskBoard.Domain.Entities
             get => _priority;
             set => _priority = value;
         }
-        public DateTime CreatedAt
-        {
-            get => _createdAt;
-            set => _createdAt = System.DateTime.Now;
-        }
+        public DateTime CreatedAt => _createdAt;
         public DateTime DueDate
         {
             get => _dueDate;
@@ -64,15 +62,37 @@ namespace TaskBoard.Domain.Entities
                 }
             }
         }
-        public List<User> AssignedTo
-        {
-            get => _assignedTo;
-            set => _assignedTo = value;
-        }
+        public List<User> AssignedTo => _assignedTo;
 
-        public TaskItem()
+        protected TaskItem(string title, DateTime dueDate)
         {
             _id = Guid.NewGuid();
+            _assignedTo = new List<User>();
+
+            _createdAt = DateTime.Now;
+            SetTitle(title);
+            SetDueDate(dueDate);
+        }
+
+        public void Rename(string newTitle) => SetTitle(newTitle);
+
+        public void ChangeDueDate(DateTime newDueDate) => SetDueDate(newDueDate);
+
+        private void SetDueDate(DateTime value)
+        {
+            if (value < _createdAt)
+                throw new InvalidDeadlineException("Duedate cannot be earlier than CreatedAt");
+
+            _dueDate = value;
+        }
+
+
+        private void SetTitle(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                throw new InvalidTaskException("Task title cannot be null or whitespace");
+
+            _title = value.Trim();
         }
 
         public string GetSummary()
@@ -91,6 +111,28 @@ namespace TaskBoard.Domain.Entities
             }
 
             return sb.ToString();
+        }
+
+        public void AssignTo(User user)
+        {
+            if (user is null)
+                throw new ArgumentNullException(nameof(user));
+
+            if (!_assignedTo.Contains(user))
+                _assignedTo.Add(user);
+        }
+
+        public void UnAssign(User user)
+        {
+            if (user is null)
+                throw new ArgumentNullException(nameof(user));
+
+            _assignedTo.Remove(user);
+        }
+
+        public void UnAssignAll()
+        {
+            _assignedTo.Clear();
         }
     }
 }

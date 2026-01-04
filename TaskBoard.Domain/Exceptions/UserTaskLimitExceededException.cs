@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace TaskBoard.Domain.Exceptions
 {
-    internal class UserTaskLimitExceededException
+    internal class UserTaskLimitExceededException : DomainException
     {
+        public UserTaskLimitExceededException(string message) : base(message) { }
     }
 }

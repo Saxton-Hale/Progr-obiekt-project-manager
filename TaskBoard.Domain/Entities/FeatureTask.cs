@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,10 +14,16 @@ namespace TaskBoard.Domain.Entities
         public string ModuleName
         {
             get => _moduleName;
-            set => _moduleName = value;
+            set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                    throw new ArgumentException("ModuleName cannot be empty.");
+                _moduleName = value.Trim();
+            }
         }
 
-        public FeatureTask(string moduleName) : base()
+        public FeatureTask(string title, DateTime dueDate, string moduleName) 
+            : base(title, dueDate)
         {
             ModuleName = moduleName;
         }

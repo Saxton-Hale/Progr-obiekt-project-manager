@@ -8,5 +8,7 @@ namespace TaskBoard.Domain.Interfaces
 {
     internal interface IUnitOfWork
     {
+        IBoardRepository Boards { get; }
+        void SaveChanges();
     }
 }

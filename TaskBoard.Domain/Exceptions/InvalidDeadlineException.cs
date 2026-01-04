@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace TaskBoard.Domain.Exceptions
 {
-    internal class InvalidDeadlineException
+    internal class InvalidDeadlineException : DomainException 
     {
+        public InvalidDeadlineException(string message) : base(message) { }
     }
 }

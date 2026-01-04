@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace TaskBoard.Domain.Exceptions
 {
-    internal class InvalidTaskException
+    internal class InvalidTaskException : DomainException
     {
+        public InvalidTaskException(string message) : base(message) { }
     }
 }

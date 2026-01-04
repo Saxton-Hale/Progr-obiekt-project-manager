@@ -8,5 +8,6 @@ namespace TaskBoard.Domain.Interfaces
 {
     internal interface IIdentifiable
     {
+        Guid Id { get; }
     }
 }
