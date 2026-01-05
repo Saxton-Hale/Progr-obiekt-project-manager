@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TaskBoard.Domain.Comparer;
+using TaskBoard.Domain.Comparers;
 using TaskBoard.Domain.Entities;
 using TaskBoard.Domain.Enums;
 using TaskBoard.Tests.Domain.TestDoubles;
