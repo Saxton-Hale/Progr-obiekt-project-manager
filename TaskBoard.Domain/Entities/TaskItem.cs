@@ -10,7 +10,7 @@ using TaskBoard.Domain.Interfaces;
 
 namespace TaskBoard.Domain.Entities
 {
-    internal abstract class TaskItem : IIdentifiable, IAssignable
+    internal abstract class TaskItem : IIdentifiable, IAssignable, IComparable<TaskItem>, ICloneable
     {
         private Guid _id;
         private string _title;
@@ -18,8 +18,8 @@ namespace TaskBoard.Domain.Entities
         private TaskStatus _status;
         private TaskPriority _priority;
         private readonly DateTime _createdAt;
-        private DateTime _dueDate;
-        private readonly List<User> _assignedTo;
+        private DateTime? _dueDate;
+        private List<User> _assignedTo;
 
         public Guid Id { get => _id; set => _id = value; }
         public string Title
@@ -48,23 +48,10 @@ namespace TaskBoard.Domain.Entities
             set => _priority = value;
         }
         public DateTime CreatedAt => _createdAt;
-        public DateTime DueDate
-        {
-            get => _dueDate;
-            set
-            {
-                if(value < System.DateTime.Now)
-                {
-                    throw new ArgumentException("Due date nie moze byc w przeszlosci");
-                } else
-                {
-                    _dueDate = value;
-                }
-            }
-        }
+        public DateTime? DueDate => _dueDate;
         public List<User> AssignedTo => _assignedTo;
 
-        protected TaskItem(string title, DateTime dueDate)
+        protected TaskItem(string title, DateTime? dueDate = null)
         {
             _id = Guid.NewGuid();
             _assignedTo = new List<User>();
@@ -76,13 +63,16 @@ namespace TaskBoard.Domain.Entities
 
         public void Rename(string newTitle) => SetTitle(newTitle);
 
-        public void ChangeDueDate(DateTime newDueDate) => SetDueDate(newDueDate);
+        public void ChangeDueDate(DateTime? newDueDate) => SetDueDate(newDueDate);
 
-        private void SetDueDate(DateTime value)
+        private void SetDueDate(DateTime? value)
         {
-            if (value < _createdAt)
-                throw new InvalidDeadlineException("Duedate cannot be earlier than CreatedAt");
-
+            if(value.HasValue)
+            {
+                if (value.Value < _createdAt)
+                    throw new InvalidDeadlineException("Duedate cannot be earlier than CreatedAt");
+            }
+            
             _dueDate = value;
         }
 
@@ -133,6 +123,29 @@ namespace TaskBoard.Domain.Entities
         public void UnAssignAll()
         {
             _assignedTo.Clear();
+        }
+
+        public int CompareTo(TaskItem? other)
+        {
+            if (other is null) return 1;
+
+            var thisDueDate = this.DueDate;
+            var otherDueDate = other.DueDate;
+
+            if (thisDueDate is null && otherDueDate is null) return 0;
+            if (thisDueDate is null) return 1;
+            if (otherDueDate is null) return -1;
+
+            return DateTime.Compare(thisDueDate.Value, otherDueDate.Value);
+        }
+
+        public object Clone()
+        {
+            var copy = (TaskItem)this.MemberwiseClone();
+
+            copy._assignedTo = new List<User>(this._assignedTo);
+
+            return copy;
         }
     }
 }

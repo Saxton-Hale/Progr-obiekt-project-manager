@@ -8,7 +8,7 @@ using TaskBoard.Domain.Enums;
 
 namespace TaskBoard.Domain.Entities
 {
-    internal class User : Person
+    internal class User : Person, IEquatable<User>
     {
         private string _email;
         private UserRole _role;
@@ -84,5 +84,35 @@ namespace TaskBoard.Domain.Entities
         {
             return $"{FirstName} {LastName}, {Role}, {Email}";
         }
+
+        public bool Equals(User? other)
+        {
+            if (other is null) return false;
+            if (ReferenceEquals(this, other)) return true;
+
+            return this.Id == other.Id;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return Equals(obj as User);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+        
+        //Dodaje to aby sovie later ulatwic zycie
+        public static bool operator ==(User? left, User? right)
+        {
+            if (left is null && right is null) return true;
+            if (left is null || right is null) return false;
+
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(User? left, User? right) => !(left == right);
+
     }
 }

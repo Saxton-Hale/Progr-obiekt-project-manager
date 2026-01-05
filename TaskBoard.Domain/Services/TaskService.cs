@@ -18,6 +18,22 @@ namespace TaskBoard.Domain.Services
             _uow = uow ?? throw new ArgumentNullException(nameof(uow));
         }
 
+        public IEnumerable<TaskItem> FilterByStatus(IEnumerable<TaskItem> tasks, TaskStatus status)
+        {
+            if (tasks is null)
+                throw new ArgumentNullException(nameof(tasks));
+
+            return tasks.Where(t => t is not null && t.Status == status);
+        }
+
+        public IEnumerable<TaskItem> FilterByPriority(IEnumerable<TaskItem> tasks, TaskPriority priority)
+        {
+            if (tasks is null)
+                throw new ArgumentNullException(nameof(tasks));
+
+            return tasks.Where(t => t is not null && t.Priority == priority);
+        }
+
         public void ChangeStatus(Guid boardId, Guid taskId, TaskStatus newStatus)
         {
             var board = _uow.Boards.GetById(boardId)
@@ -77,7 +93,7 @@ namespace TaskBoard.Domain.Services
             _uow.SaveChanges();
         }
 
-        private int CoutTaskAssignedToUser(Guid userId)
+        private int CountTasksAssignedToUser(Guid userId)
         {
             var boards = _uow.Boards.GetAll();
             return boards.SelectMany(b => b.GetAllTasks())
