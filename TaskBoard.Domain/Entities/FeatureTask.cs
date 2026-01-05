@@ -22,7 +22,7 @@ namespace TaskBoard.Domain.Entities
             }
         }
 
-        public FeatureTask(string title, DateTime dueDate, string moduleName) 
+        public FeatureTask(string title, DateTime? dueDate, string moduleName) 
             : base(title, dueDate)
         {
             ModuleName = moduleName;

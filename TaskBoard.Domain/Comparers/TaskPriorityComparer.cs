@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TaskBoard.Domain.Entities;
 
-namespace TaskBoard.Domain.Comparer
+namespace TaskBoard.Domain.Comparers
 {
     internal class TaskPriorityComparer : IComparer<TaskItem>
     {

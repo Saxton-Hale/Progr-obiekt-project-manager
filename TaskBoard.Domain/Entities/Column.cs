@@ -38,7 +38,7 @@ namespace TaskBoard.Domain.Entities
 
         public Column(string name)
         {
-            this.Id = _id;
+            _id = Guid.NewGuid();
             _name = name;
             _tasks = new List<TaskItem>();
         }
