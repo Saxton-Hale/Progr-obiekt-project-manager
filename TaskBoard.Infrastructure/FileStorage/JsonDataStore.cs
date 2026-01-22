@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 using TaskBoard.Domain.Entities;
 using TaskBoard.Domain.Enums;
 using TaskStatus = TaskBoard.Domain.Enums.TaskStatus;
+using TaskBoard.Domain.Interfaces;
 
 
 namespace TaskBoard.Infrastructure.FileStorage
 {
-    internal class JsonDataStore
+    public sealed class JsonDataStore : IBoardDataStore
     {
         private static readonly JsonSerializerOptions Options = new JsonSerializerOptions
         {
@@ -88,9 +89,23 @@ namespace TaskBoard.Infrastructure.FileStorage
         {
             return dto.Type switch
             {
-                "BugTask" => CreateWithOptionalDueDate<BugTask>(dto.Title, dto.DueDate),
-                "FeatureTask" => CreateWithOptionalDueDate<FeatureTask>(dto.Title, dto.DueDate),
-                _ => CreateWithOptionalDueDate<FeatureTask>(dto.Title, dto.DueDate) // fallback
+                "BugTask" => new BugTask(
+                    dto.Id,
+                    dto.Title,
+                    dto.Description,
+                    dto.Status,
+                    dto.Priority,
+                    dto.DueDate),
+
+                "FeatureTask" => new FeatureTask(
+                    dto.Id,
+                    dto.Title,
+                    dto.Description,
+                    dto.Status,
+                    dto.Priority,
+                    dto.DueDate),
+
+                _ => throw new InvalidOperationException($"Unknown task type: {dto.Type}")
             };
         }
 

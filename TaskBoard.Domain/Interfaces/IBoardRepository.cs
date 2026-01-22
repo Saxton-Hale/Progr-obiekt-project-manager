@@ -7,7 +7,7 @@ using TaskBoard.Domain.Entities;
 
 namespace TaskBoard.Domain.Interfaces
 {
-    internal interface IBoardRepository
+    public interface IBoardRepository
     {
         IEnumerable<Board> GetAll();
         Board? GetById(Guid id);

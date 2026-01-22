@@ -1,0 +1,118 @@
+﻿<UserControl x:Class="TaskBoard.App.Wpf.Views.BoardView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--naglowek-->
+        <StackPanel Grid.Row="0">
+            <TextBlock FontSize="18" FontWeight="Bold"
+                       Text="{Binding Board.Name}" />
+            <TextBlock Foreground="Gray"
+                       Text="Columns" />
+        </StackPanel>
+
+        <!--dodawanie kolumn-->
+        <StackPanel Grid.Row="2" Orientation="Vertical">
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                <TextBox Width="220"
+                         Margin="0,0,8,0"
+                         Text="{Binding NewColumnName, UpdateSourceTrigger=PropertyChanged}" />
+                <Button Content="Add column"
+                        Width="100"
+                        Command="{Binding AddColumnCommand}" />
+                <Button Content="Delete"
+                        Width="80"
+                        Margin="8,0,0,0"
+                        Command="{Binding DeleteColumnCommand}" />
+            </StackPanel>
+
+            <!--lista kolumn-->
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Columns}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border 
+                                BorderBrush="Gray"
+                                BorderThickness="1"
+                                Padding="10"
+                                Margin="0,0,10,10"
+                                Width="240"
+                                MouseLeftButtonDown="ColumnBorder_MouseLeftButtonDown">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="8"/>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+
+                                    <!--nazwa i button-->
+                                    <Grid Grid.Row="0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <!--nazwa kolumny-->
+                                        <TextBlock Grid.Column="0"
+                                           FontWeight="Bold"
+                                           FontSize="14"
+                                           Text="{Binding Name}"
+                                           VerticalAlignment="Center"/>
+
+                                        <!--button-->
+                                        <Button Grid.Column="1"
+                                            Width="26"
+                                            Height="26"
+                                            FontSize="16"
+                                            FontWeight="Bold"
+                                            Content="+"
+                                            ToolTip="Create task"
+                                            VerticalAlignment="Top"
+                                            HorizontalAlignment="Right"
+                                            Command="{Binding DataContext.OpenCreateTaskDialogCommand,
+                                            RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                            CommandParameter="{Binding}" />
+                                    </Grid>
+
+                                    <!--lista taskow-->
+                                    <StackPanel Grid.Row="2">
+                                        <TextBlock Foreground="Gray"
+                                           Text="Tasks"
+                                           Margin="0,4,0,4"/>
+
+                                        <ListBox ItemsSource="{Binding Tasks}"
+                                             DisplayMemberPath="Title"
+                                             MinHeight="120"
+                                             PreviewMouseLeftButtonDown="TasksList_PreviewMouseLeftButtonDown"
+                                             MouseMove="TasksList_MouseMove"
+                                             AllowDrop="True"
+                                             Drop="TasksList_Drop">
+
+                                            <ListBox.ItemContainerStyle>
+                                                <Style TargetType="ListBoxItem">
+                                                    <EventSetter Event="MouseDoubleClick" Handler="TaskItem_MouseDoubleClick"/>
+                                                </Style>
+                                            </ListBox.ItemContainerStyle>
+
+                                        </ListBox>
+                                    </StackPanel>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -10,7 +10,7 @@ using TaskBoard.Domain.Interfaces;
 
 namespace TaskBoard.Domain.Entities
 {
-    internal abstract class TaskItem : IIdentifiable, IAssignable, IComparable<TaskItem>, ICloneable
+    public abstract class TaskItem : IIdentifiable, IAssignable, IComparable<TaskItem>, ICloneable
     {
         private Guid _id;
         private string _title;
@@ -85,7 +85,7 @@ namespace TaskBoard.Domain.Entities
             _title = value.Trim();
         }
 
-        public string GetSummary()
+        public virtual string GetSummary()
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine($"Task id: {Id}");

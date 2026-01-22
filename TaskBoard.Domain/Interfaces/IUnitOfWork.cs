@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace TaskBoard.Domain.Interfaces
 {
-    internal interface IUnitOfWork
+    public interface IUnitOfWork
     {
         IBoardRepository Boards { get; }
         void SaveChanges();
+        void Reload();
     }
 }

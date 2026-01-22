@@ -8,11 +8,11 @@ using TaskBoard.Domain.Interfaces;
 
 namespace TaskBoard.Domain.Entities
 {
-    internal class Column
+    public class Column
     {
         private Guid _id;
         private string _name;
-        private readonly List<TaskItem> _tasks = new();
+        private List<TaskItem> _tasks = new();
         public Guid Id { get => _id; set => _id = value; }
         public string Name
         {

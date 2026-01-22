@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TaskBoard.Domain.Entities
 {
-    internal class Person
+    public class Person
     {
         private Guid _id;
         private string _firstName;

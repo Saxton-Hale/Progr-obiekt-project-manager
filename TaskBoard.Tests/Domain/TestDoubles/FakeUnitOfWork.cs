@@ -22,5 +22,10 @@ namespace TaskBoard.Tests.Domain.TestDoubles
         {
             SaveChangesCallCount++;
         }
+
+        public void Reload()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -8,8 +8,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TaskBoard.App.Wpf.ViewModels;
 
-namespace TaskBoard.App.Wpf
+namespace TaskBoard.App.Wpf.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -19,6 +20,7 @@ namespace TaskBoard.App.Wpf
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainViewModel();
         }
     }
 }

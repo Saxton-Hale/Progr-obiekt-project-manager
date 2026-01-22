@@ -10,8 +10,18 @@ namespace TaskBoard.Infrastructure.Repositories
 {
     internal sealed class BoardRepository : IBoardRepository
     {
-        private readonly List<Board> _boards = new();
+        private readonly List<Board> _boards;
 
+        public BoardRepository(List<Board>? initial = null)
+        {
+            _boards = initial ?? new List<Board>();
+        }
+
+        public void ReplaceAll(IEnumerable<Board> boards)
+        {
+            _boards.Clear();
+            _boards.AddRange(boards);
+        }
         public void Add(Board board)
         {
             if (board is null) throw new ArgumentNullException(nameof(board));

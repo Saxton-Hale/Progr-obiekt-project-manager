@@ -8,7 +8,7 @@ using TaskBoard.Domain.Enums;
 
 namespace TaskBoard.Domain.Entities
 {
-    internal class User : Person, IEquatable<User>
+    public class User : Person, IEquatable<User>
     {
         private string _email;
         private UserRole _role;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TaskBoard.Domain.Enums;
+using TaskStatus = TaskBoard.Domain.Enums.TaskStatus;
 
 namespace TaskBoard.Domain.Entities
 {
@@ -37,6 +38,30 @@ namespace TaskBoard.Domain.Entities
 
         public BugTask(string title, DateTime dueDate) : base(title, dueDate)
         {
+        }
+
+        public BugTask(
+            Guid id,
+            string title,
+            string? description,
+            TaskStatus status,
+            TaskPriority priority,
+            DateTime? dueDate
+        ) : base(title)
+        {
+            Id = id;
+            Description = description;
+            Status = status;
+            Priority = priority;
+
+            if (dueDate.HasValue)
+                ChangeDueDate(dueDate);
+        }
+
+
+        public override string GetSummary()
+        {
+            return base.GetSummary() + "\nSeverity: " + Severity;
         }
     }
 }

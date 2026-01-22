@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TaskBoard.Domain.Enums;
+using TaskStatus = TaskBoard.Domain.Enums.TaskStatus;
 
 namespace TaskBoard.Domain.Entities
 {
-    internal class FeatureTask : TaskItem
+    public class FeatureTask : TaskItem
     {
         private string _moduleName;
 
@@ -27,5 +29,30 @@ namespace TaskBoard.Domain.Entities
         {
             ModuleName = moduleName;
         }
+
+        public FeatureTask(
+            Guid id,
+            string title,
+            string? description,
+            TaskStatus status,
+            TaskPriority priority,
+            DateTime? dueDate
+            ) : base(title)
+        {
+            Id = id;
+            Description = description;
+            Status = status;
+            Priority = priority;
+
+            if (dueDate.HasValue)
+                ChangeDueDate(dueDate);
+        }
+
+
+        public override string GetSummary()
+        {
+            return base.GetSummary() + "\nModule name: " + ModuleName;
+        }
+
     }
 }
